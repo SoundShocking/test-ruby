@@ -13,7 +13,7 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-name: Mr. Glow Express Car Wash
+name: Mr. Glow Express Car Wash1
 description: SpinLite Express Car Wash in Lake Worth, Florida
 meta_description: "SpinLite Express Car Wash in Lake Worth, Florida"
 logo: 'assets/images/mr-glow.svg'

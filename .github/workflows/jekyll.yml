@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - dev
 
 jobs:
   build:
@@ -12,13 +11,30 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.7'
+          bundler-cache: false
 
       - name: Install dependencies
-        run: bundle install
+        run: bundle install --path vendor/bundle
 
       - name: Build site
         run: bundle exec jekyll build
+
+      - name: Deploy to FTP
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./_site
